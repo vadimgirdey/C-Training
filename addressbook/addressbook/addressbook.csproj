@@ -26,5 +26,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="tests\" />
+    <Folder Include="model\" />
+    <Folder Include="appManager\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="creationUser" />
   </ItemGroup>
 </Project>
