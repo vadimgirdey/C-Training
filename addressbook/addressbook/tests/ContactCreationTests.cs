@@ -4,25 +4,20 @@ using OpenQA.Selenium;
 namespace WebAddressBookTests
 {
     [TestFixture]
-    public class BookCreationTests : TestBase
+    public class ContactCreationTests : TestBase
     {
         protected IWebDriver driver; 
 
         [Test]
 
-        public void BookCreationTest()
+        public void ContactCreationTest()
         {
             applicationManager.Navigator.GoToHomePage();
             applicationManager.Auth.Login(new AccountData("admin", "secret"));
-            GoToAddNewPage();
-
-            FillNewContact fill = new FillNewContact("firstName", "lastName");
+            applicationManager.Contact
+                              .GoToAddNewPage()
+                              .FillContact("firstName", "lastName");
             applicationManager.LogOut();
-        }
-
-        private void GoToAddNewPage()
-        {
-            driver.FindElement(By.XPath("//a[text()= 'add new']")).Click();
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 namespace WebAddressBookTests
 {
-    public class FillNewContact
+    public class ContactData
     {
         private string firstName;
         private string lastName;
 
-        public FillNewContact(string firstName, string lastName)
+        public ContactData(string firstName, string lastName)
         {
             this.firstName = firstName;
             this.lastName = lastName;

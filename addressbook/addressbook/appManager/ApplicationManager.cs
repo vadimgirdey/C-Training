@@ -14,6 +14,7 @@ namespace WebAddressBookTests
         public LoginHelper loginHelper;
         public NavigationHelper navigationHelper;
         public GroupHelper groupHelper;
+        public ContactHelper contactHelper;
 
         public IWebDriver Driver { 
             get {
@@ -68,6 +69,11 @@ namespace WebAddressBookTests
             }
         }
 
+        public ContactHelper Contact {
+            get {
+                return contactHelper;
+            }
+        }
 
         public void LogOut (){
 
