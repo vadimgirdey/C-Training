@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 namespace WebAddressBookTests
 {
     public class ContactHelper : HelperBase
@@ -8,15 +9,20 @@ namespace WebAddressBookTests
         }
 
 
-        public ContactHelper FillContact(string firstName, string lastName)
+        public ContactHelper FillContact(ContactData contact)
         {
-            ContactData fillContact = new ContactData(firstName, lastName);
+            driver.FindElement(By.Name("firstname")).Clear();
+            driver.FindElement(By.Name("firstname")).SendKeys(contact.firstName);
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(contact.lastName);
             return this;
         }
 
+
+
         public ContactHelper GoToAddNewPage()
         {
-            driver.FindElement(By.XPath("//a[text()= 'add new']")).Click();
+            driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
     }

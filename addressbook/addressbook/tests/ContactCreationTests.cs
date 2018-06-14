@@ -6,18 +6,17 @@ namespace WebAddressBookTests
     [TestFixture]
     public class ContactCreationTests : TestBase
     {
-        protected IWebDriver driver; 
-
+        
         [Test]
 
         public void ContactCreationTest()
         {
-            applicationManager.Navigator.GoToHomePage();
-            applicationManager.Auth.Login(new AccountData("admin", "secret"));
+            ContactData contact = new ContactData("firstname", "lastName");
+
             applicationManager.Contact
                               .GoToAddNewPage()
-                              .FillContact("firstName", "lastName");
-            applicationManager.LogOut();
+                              .FillContact(contact);
+            //applicationManager.LogOut();
         }
     }
 }

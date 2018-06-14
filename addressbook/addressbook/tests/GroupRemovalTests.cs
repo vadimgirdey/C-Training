@@ -12,7 +12,7 @@ namespace WebAddressBookTests
             applicationManager.Navigator.GoToGroupsPage();
             applicationManager.Groups.Remove(1);
                               
-            applicationManager.LogOut();
+            //applicationManager.LogOut();
         }
     }
 }

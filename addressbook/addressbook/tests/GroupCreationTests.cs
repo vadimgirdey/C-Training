@@ -17,7 +17,10 @@ namespace WebAddressBookTests
 
             applicationManager.Navigator.GoToHomePage();
             applicationManager.LogOut();
-        }
+
+        } 
+    
+ 
 
         [Test]
         public void EmptyGroupCreationTest()
@@ -34,3 +37,4 @@ namespace WebAddressBookTests
         }
     }
 }
+  

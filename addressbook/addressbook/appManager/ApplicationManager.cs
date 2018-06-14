@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
@@ -8,7 +10,7 @@ namespace WebAddressBookTests
     {
 
         protected IWebDriver driver;
-        //private StringBuilder verificationErrors;
+        private StringBuilder verificationErrors;
         protected string baseURL;
 
         public LoginHelper loginHelper;
@@ -31,19 +33,20 @@ namespace WebAddressBookTests
             loginHelper = new LoginHelper(this);
             navigationHelper = new NavigationHelper(this, baseURL);
             groupHelper = new GroupHelper(this);
+            contactHelper = new ContactHelper(this);
         }
 
         public void Stop() {
 
-            //try
-            //{
+            try
+            {
                 driver.Quit();
-            //}
-            ////catch (Exception)
-            //{
-            //    // Ignore errors if unable to close the browser
-            //}
-            //Assert.AreEqual("", verificationErrors.ToString());
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+            Assert.AreEqual("", verificationErrors.ToString());
 
         }
 
