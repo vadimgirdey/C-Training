@@ -18,6 +18,11 @@ namespace WebAddressBookTests
             driver.Navigate().GoToUrl(baseURL + "/addressbook/group.php");
         }
 
+        public void GoToContactPage()
+        {
+            driver.Navigate().GoToUrl(baseURL + "/addressbook/index.php");
+        }
+
         public void GoToGroupsPage()
         {
             driver.FindElement(By.LinkText("groups")).Click();

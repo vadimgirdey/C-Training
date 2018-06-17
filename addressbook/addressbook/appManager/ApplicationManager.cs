@@ -10,7 +10,6 @@ namespace WebAddressBookTests
     {
 
         protected IWebDriver driver;
-        private StringBuilder verificationErrors;
         protected string baseURL;
 
         public LoginHelper loginHelper;
@@ -46,7 +45,6 @@ namespace WebAddressBookTests
             {
                 // Ignore errors if unable to close the browser
             }
-            Assert.AreEqual("", verificationErrors.ToString());
 
         }
 
