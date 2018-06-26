@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Text;
-using NUnit.Framework;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
@@ -16,6 +15,8 @@ namespace WebAddressBookTests
         public NavigationHelper navigationHelper;
         public GroupHelper groupHelper;
         public ContactHelper contactHelper;
+        public static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
+
 
         public IWebDriver Driver { 
             get {
@@ -35,8 +36,8 @@ namespace WebAddressBookTests
             contactHelper = new ContactHelper(this);
         }
 
-        public void Stop() {
-
+        ~ApplicationManager()
+        {
             try
             {
                 driver.Quit();
@@ -45,8 +46,19 @@ namespace WebAddressBookTests
             {
                 // Ignore errors if unable to close the browser
             }
-
         }
+        public static ApplicationManager GetInstance()
+        {
+            if (! app.IsValueCreated) 
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.GoToHomePage();
+                app.Value = newInstance;
+
+            }
+            return app.Value;
+        }
+
 
         public LoginHelper Auth {
             get {
@@ -75,14 +87,5 @@ namespace WebAddressBookTests
                 return contactHelper;
             }
         }
-
-        public void LogOut (){
-
-            driver.FindElement(By.LinkText("Logout")).Click();
-
-        }
-
     }
-
-   
 }

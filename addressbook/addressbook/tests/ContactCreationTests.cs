@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 namespace WebAddressBookTests
 {
     [TestFixture]
-    public class ContactCreationTests : TestBase
+    public class ContactCreationTests : AuthTestBase
     {
         
         [Test]
@@ -13,7 +13,7 @@ namespace WebAddressBookTests
         {
             ContactData contact = new ContactData("firstname", "lastName");
 
-            applicationManager.Contact
+            app.Contact
                               .GoToAddNewPage()
                               .FillContact(contact);
             //applicationManager.LogOut();

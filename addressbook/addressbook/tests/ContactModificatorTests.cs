@@ -5,16 +5,16 @@
 namespace WebAddressBookTests
 {
     [TestFixture]
-    public class ContactModificatorTests : TestBase
+    public class ContactModificatorTests : AuthTestBase
     {
         [Test]
         public void ContactModificatorTest()
         {
             ContactData contact = new ContactData("newFirstName", "newLastName");
 
-            applicationManager.Navigator.GoToContactPage();
+            app.Navigator.GoToContactPage();
 
-            applicationManager.Contact
+            app.Contact
                               .SelectContact("4")
                               .EditContact()
                               .FillContact(contact)

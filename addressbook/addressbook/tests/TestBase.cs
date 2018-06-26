@@ -4,21 +4,13 @@ namespace WebAddressBookTests
 {
     public class TestBase
     {
-        protected ApplicationManager applicationManager;
+        protected ApplicationManager app;
 
         [SetUp]
 
-        public void SetupTest()
+        public void SetupApplicationManager()
         {
-            applicationManager = new ApplicationManager();
-            applicationManager.Navigator.GoToHomePage();
-            applicationManager.Auth.Login(new AccountData("admin", "secret"));
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            applicationManager.Stop(); 
+            app = ApplicationManager.GetInstance();
         }
     }
 }

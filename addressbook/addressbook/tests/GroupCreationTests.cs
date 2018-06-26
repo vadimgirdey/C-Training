@@ -3,7 +3,7 @@ using NUnit.Framework;
 namespace WebAddressBookTests
 {
     [TestFixture]
-    public class GroupCreationTests : TestBase
+    public class GroupCreationTests : AuthTestBase
     {
         [Test]
         public void GroupCreationTest()
@@ -13,10 +13,9 @@ namespace WebAddressBookTests
             group.Header = "Header";
             group.Footer = "Footer";
 
-            applicationManager.Groups.Create(group);
+            app.Groups.Create(group);
 
-            applicationManager.Navigator.GoToHomePage();
-            applicationManager.LogOut();
+            app.Navigator.GoToHomePage();
 
         } 
     
@@ -30,10 +29,9 @@ namespace WebAddressBookTests
             group.Header = "";
             group.Footer = "";
 
-            applicationManager.Groups.Create(group);
+            app.Groups.Create(group);
 
-            applicationManager.Navigator.GoToHomePage();
-            applicationManager.LogOut();
+            app.Navigator.GoToHomePage();
         }
     }
 }
