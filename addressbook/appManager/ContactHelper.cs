@@ -1,15 +1,73 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using OpenQA.Selenium;
+
 namespace WebAddressBookTests
 {
     public class ContactHelper : HelperBase
     {
         private bool acceptNextAlert;
 
+        public bool IsPresent()
+        {
+            return IsElementPresent(By.XPath("//tr[@name='entry']"));
+        }
+
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
+        }
+
+        public ContactHelper Create(ContactData contact)
+        {
+            manager.navigationHelper.GoToHomePage();
+            InitContactCreation();
+            FillContact(contact);
+
+            return this;
+        }
+
+        public ContactHelper InitContactCreation()
+        {
+            driver.FindElement(By.LinkText("add new"));
+            return this;
+        }
+
+        public ContactHelper Modify(ContactData newData)
+        {
+            manager.navigationHelper.GoToHomePage();
+            EditContact();
+            FillContact(newData);
+            UpdateContact();
+
+            return this;
+        }
+
+        private ContactHelper InitNewGroupModification(int index)
+        {
+            driver.FindElement(By.XPath("(.//*[@alt='Edit'])[" + index + "]")).Click();
+            return this;
+        }
+
+        public List<ContactData> GetList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+            foreach (IWebElement element in elements)
+            {
+                string firstName;
+                string lastName;
+                ContactData contact = new ContactData
+                (
+                    firstName = element.FindElement(By.XPath(".//td[3]")).Text,
+                    lastName = element.FindElement(By.XPath(".//td[2]")).Text
+                );
+
+                contacts.Add(contact);
+            }
+            return contacts;
         }
 
 
@@ -34,9 +92,10 @@ namespace WebAddressBookTests
             return this;
         }
 
-        public ContactHelper SelectContact(string index)
+        public ContactHelper SelectContactByID(int name)
         {
-            driver.FindElement(By.Id(index)).Click();
+            string newString = name.ToString();
+            driver.FindElement(By.Id(newString)).Click();
             return this;
         }
 
