@@ -16,7 +16,6 @@ namespace WebAddressBookTests
             app.Contact
                               .GoToAddNewPage()
                               .FillContact(contact);
-            //applicationManager.LogOut();
         }
     }
 }
