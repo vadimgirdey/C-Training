@@ -20,8 +20,11 @@ namespace WebAddressBookTests
 
             app.Navigator.GoToHomePage();
 
-            List<GroupData> groups = app.Groups.GetGroupsList();
-            Assert.AreEqual(oldGroups.Count + 1, groups.Count);
+            List<GroupData> newGroups = app.Groups.GetGroupsList();
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         } 
     
  
@@ -38,10 +41,11 @@ namespace WebAddressBookTests
 
             app.Groups.Create(group);
 
-            app.Navigator.GoToHomePage();
-
-            List<GroupData> groups = app.Groups.GetGroupsList();
-            Assert.AreEqual(oldGroups.Count + 1, groups.Count);
+            List<GroupData> newGroups = app.Groups.GetGroupsList();
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
         }
     }
 }

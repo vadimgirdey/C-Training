@@ -19,6 +19,24 @@ namespace WebAddressBookTests
         {
         }
 
+        public List<ContactData> GetContactsList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToContactPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+            foreach (IWebElement element in elements)
+            {
+                string firstname = element.FindElement(By.XPath("./td[3]")).Text;
+                string lastName = element.FindElement(By.XPath("./td[2]")).Text;
+
+                ContactData contact = new ContactData(firstname, lastName);
+
+                contacts.Add(contact);
+            }
+
+            return contacts;
+        }
+
         public ContactHelper Create(ContactData contact)
         {
             manager.navigationHelper.GoToHomePage();
@@ -30,23 +48,25 @@ namespace WebAddressBookTests
 
         public ContactHelper InitContactCreation()
         {
-            driver.FindElement(By.LinkText("add new"));
+            driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
 
-        public ContactHelper Modify(ContactData newData)
+        public ContactHelper Modify(int index, ContactData newData)
         {
-            manager.navigationHelper.GoToHomePage();
-            EditContact();
+            manager.Navigator.GoToContactPage();
+            InitNewContactModification(index);
             FillContact(newData);
-            UpdateContact();
+            manager.Navigator.GoToContactPage();
+            //UpdateContact();
 
             return this;
         }
 
-        private ContactHelper InitNewGroupModification(int index)
+        private ContactHelper InitNewContactModification(int index)
         {
-            driver.FindElement(By.XPath("(.//*[@alt='Edit'])[" + index + "]")).Click();
+            SelectContact(index);
+            driver.FindElement(By.XPath($"(//tr[@name='entry'])[{ index + 1}]//img[@title='Edit']")).Click();
             return this;
         }
 
@@ -76,6 +96,16 @@ namespace WebAddressBookTests
             Type(By.Name("firstname"), contact.firstName);
             Type(By.Name("lastname"),contact.lastName);
 
+            if (IsElementPresent(By.Name("submit")))
+            {
+                driver.FindElement(By.Name("submit")).Click();
+            }
+            else
+            {
+                driver.FindElement(By.Name("update")).Click();
+            }
+            
+
             return this;
         }
 
@@ -85,23 +115,17 @@ namespace WebAddressBookTests
             return this;
         }
 
-        public ContactHelper RemoveContact()
+        public ContactHelper RemoveContact(int index)
         {
+            SelectContact(index);
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
-            Assert.IsTrue(Regex.IsMatch(CloseAlertAndGetItsText(), "^Delete 1 addresses[\\s\\S]$"));
+            driver.SwitchTo().Alert().Accept();
             return this;
         }
 
-        public ContactHelper SelectContactByID(int name)
+        public ContactHelper SelectContact(int index)
         {
-            string newString = name.ToString();
-            driver.FindElement(By.Id(newString)).Click();
-            return this;
-        }
-
-        public ContactHelper EditContact()
-        {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[2]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + 1 + "]")).Click();
             return this;
         }
 
