@@ -18,23 +18,32 @@ namespace WebAddressBookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+        private List<ContactData> contactCache = null;
 
         public List<ContactData> GetContactsList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToContactPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                string firstname = element.FindElement(By.XPath("./td[3]")).Text;
-                string lastName = element.FindElement(By.XPath("./td[2]")).Text;
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToContactPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+                foreach (IWebElement element in elements)
+                {
+                    string firstname = element.FindElement(By.XPath("./td[3]")).Text;
+                    string lastName = element.FindElement(By.XPath("./td[2]")).Text;
+                    string Id = element.FindElement(By.TagName("input")).GetAttribute("id");
 
-                ContactData contact = new ContactData(firstname, lastName);
+                    contactCache.Add(new ContactData(firstname, lastName, Id));
 
-                contacts.Add(contact);
+                }
             }
+            return new List<ContactData>(contactCache);
+            
+        }
 
-            return contacts;
+        public int GetContactsCount()
+        {
+            return driver.FindElements(By.XPath("//tr[@name='entry']")).Count;
         }
 
         public ContactHelper Create(ContactData contact)
@@ -93,8 +102,8 @@ namespace WebAddressBookTests
 
         public ContactHelper FillContact(ContactData contact)
         {
-            Type(By.Name("firstname"), contact.firstName);
-            Type(By.Name("lastname"),contact.lastName);
+            Type(By.Name("firstname"), contact.fName);
+            Type(By.Name("lastname"),contact.lName);
 
             if (IsElementPresent(By.Name("submit")))
             {

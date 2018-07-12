@@ -27,11 +27,20 @@ namespace WebAddressBookTests
             app.Contact
                               .RemoveContact(0)
                               .IsAlertPresent();
+            Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactsCount());
+
             List<ContactData> newContacts = app.Contact.GetContactsList();
-            oldContacts.RemoveAt(0);
+
             oldContacts.Sort();
-            newContacts.Sort();
+            ContactData toBeRemoved = oldContacts[0];
+            oldContacts.RemoveAt(0);
+            
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreEqual(contact.Id, toBeRemoved.Id);
+            }
 
         }
     }
